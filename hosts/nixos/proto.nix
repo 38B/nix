@@ -1,7 +1,7 @@
 { suites, ... }:
 
 {
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
   virtualisation.hypervGuest.enable = false;
 
   boot.loader.grub.enable = true;
