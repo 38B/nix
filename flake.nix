@@ -1,5 +1,5 @@
 {
-  description = "A highly structured configuration database.";
+  description = "38+B flake configuration database";
 
   nixConfig.extra-experimental-features = "nix-command flakes";
   nixConfig.extra-substituters = "https://nrdxp.cachix.org https://nix-community.cachix.org";
@@ -119,6 +119,10 @@
           hosts = {
             /* set host-specific properties here */
             NixOS = { };
+            proto = {
+              channelName = "latest";
+              modules = [ ];
+            };
           };
           importables = rec {
             profiles = digga.lib.rakeLeaves ./profiles // {
@@ -126,6 +130,7 @@
             };
             suites = with profiles; rec {
               base = [ core.nixos users.nixos users.root ];
+              cli = [ core.nixos powercli.nixos users.blob ];
             };
           };
         };
@@ -168,30 +173,15 @@
             };
           };
           users = {
-            # TODO: does this naming convention still make sense with darwin support?
-            #
-            # - it doesn't make sense to make a 'nixos' user available on
-            #   darwin, and vice versa
-            #
-            # - the 'nixos' user might have special significance as the default
-            #   user for fresh systems
-            #
-            # - perhaps a system-agnostic home-manager user is more appropriate?
-            #   something like 'primaryuser'?
-            #
-            # all that said, these only exist within the `hmUsers` attrset, so
-            # it could just be left to the developer to determine what's
-            # appropriate. after all, configuring these hm users is one of the
             # first steps in customizing the template.
             nixos = { suites, ... }: { imports = suites.base; };
             darwin = { suites, ... }: { imports = suites.base; };
+            blob = { suites, ... }: { imports = suites.cli; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
         devshell = ./shell;
 
-        # TODO: similar to the above note: does it make sense to make all of
-        # these users available on all systems?
         homeConfigurations = digga.lib.mergeAny
           (digga.lib.mkHomeConfigurations self.darwinConfigurations)
           (digga.lib.mkHomeConfigurations self.nixosConfigurations)
