@@ -8,6 +8,7 @@
       passwordFile = "/run/agenix/blob-password";
     in
     {
+      initialPassword = "password";
       passwordFile = passwordFile;
       description = "default user with sudo powers";
       isNormalUser = true;
