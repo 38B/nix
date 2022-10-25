@@ -1,4 +1,4 @@
-{ suites, ... }:
+{ config, suites, ... }:
 
 {
   hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
