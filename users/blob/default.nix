@@ -9,8 +9,8 @@
     in
     {
       passwordFile = passwordFile;
-      description = "default user with sudo powers"
-        isNormalUser = true;
+      description = "default user with sudo powers";
+      isNormalUser = true;
       extraGroups = [ "wheel" ];
     };
 
