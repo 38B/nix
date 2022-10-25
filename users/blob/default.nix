@@ -1,6 +1,6 @@
 { self, hmUsers, ... }:
 {
-  home-manager.users = { inherit (hmUsers) blob; };
+  home-manager.users = { inherit (hmUsers) nixos; };
   age.secrets.blob-password.file = "${self}/secrets/blob-password.age";
 
   users.users.blob =
